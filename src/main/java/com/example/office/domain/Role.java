@@ -44,22 +44,22 @@ public class Role implements Serializable {
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
-            name = "roles_authorities",
+            name = "roles_permissions",
             joinColumns = @JoinColumn(name = "role_name", referencedColumnName = Role_.NAME),
-            inverseJoinColumns = @JoinColumn(name = "authority_name", referencedColumnName = Authority_.NAME)
+            inverseJoinColumns = @JoinColumn(name = "permission_name", referencedColumnName = Permission_.NAME)
     )
-    private Set<Authority> authorities = new HashSet<>();
+    private Set<Permission> permissions = new HashSet<>();
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Role role = (Role) o;
-        return Objects.equals(name, role.name) && Objects.equals(authorities, role.authorities);
+        return Objects.equals(name, role.name) && Objects.equals(permissions, role.permissions);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, authorities);
+        return Objects.hash(name, permissions);
     }
 }

@@ -22,12 +22,12 @@ import java.util.Objects;
 @NoArgsConstructor
 @ToString
 @Entity
-@Table(name = Authority.TABLE_NAME)
-public class Authority implements Serializable {
+@Table(name = Permission.TABLE_NAME)
+public class Permission implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    public static final String TABLE_NAME = "app_authorities";
+    public static final String TABLE_NAME = "app_permissions";
 
     @NotNull
     @Size(min = 1, max = 100)
@@ -39,7 +39,7 @@ public class Authority implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Authority authority = (Authority) o;
+        Permission authority = (Permission) o;
         return Objects.equals(name, authority.name);
     }
 
