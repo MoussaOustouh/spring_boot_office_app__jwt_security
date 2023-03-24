@@ -14,9 +14,9 @@ public final class AppConstants {
     }
 
     public static final class Roles {
-        public static final String SUPER_ADMIN = "SUPER_ADMIN";
-        public static final String ADMIN = "ADMIN";
-        public static final String USER = "USER";
+        public static final String SUPER_ADMIN = "ROLE_SUPER_ADMIN";
+        public static final String ADMIN = "ROLE_ADMIN";
+        public static final String USER = "ROLE_USER";
 
         private Roles() {
         }
