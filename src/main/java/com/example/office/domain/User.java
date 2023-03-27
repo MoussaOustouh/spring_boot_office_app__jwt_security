@@ -10,20 +10,27 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.PrePersist;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Size;
+
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -32,9 +39,10 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
+@Builder
 @Entity
 @Table(name = User.TABLE_NAME)
-public class User implements Serializable {
+public class User implements UserDetails, Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -47,11 +55,11 @@ public class User implements Serializable {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Max(255)
+    @Size(max = 255)
     @Column(nullable = false)
     private String firstName;
 
-    @Max(255)
+    @Size(max = 255)
     @Column(nullable = false)
     private String lastName;
 
@@ -59,7 +67,7 @@ public class User implements Serializable {
     @Column(nullable = false)
     private String email;
 
-    @Max(255)
+    @Size(max = 255)
     @Column(name = "password_hash")
     private String password;
 
@@ -85,5 +93,38 @@ public class User implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(id, firstName, lastName, email, password, enabled, roles);
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+
+        // Collete the roles and permissions in a collection of GrantedAuthority
+        roles.forEach(role -> {
+            authorities.add(new SimpleGrantedAuthority(role.getName()));
+            role.getPermissions().forEach(p -> authorities.add(new SimpleGrantedAuthority(p.getName())) );
+        });
+
+        return authorities;
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
     }
 }
