@@ -68,6 +68,7 @@ public class User implements UserDetails, Serializable {
 
     @Size(max = 255)
     @Column(name = "password_hash")
+    @ToString.Exclude
     private String password;
 
     @Column(nullable = false)
