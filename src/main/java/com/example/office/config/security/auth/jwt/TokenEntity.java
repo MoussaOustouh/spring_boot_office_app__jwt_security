@@ -16,7 +16,7 @@ public class TokenEntity {
     @GeneratedValue
     public Integer id;
 
-    @Column(unique = true, length = 500)
+    @Column(unique = true, length = 4000)
     public String token;
 
     @Enumerated(EnumType.STRING)
