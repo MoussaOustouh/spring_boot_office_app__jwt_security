@@ -4,6 +4,14 @@ public final class AppConstants {
     private AppConstants() {
     }
 
+    public static final class System {
+        public static final String SYSTEM_ACCOUNT = "@system";
+        public static final Byte SYSTEM_ACCOUNT_ID = 0;
+
+        private System() {
+        }
+    }
+
     public static final class Permissions {
         public static final String CREATE = "CREATE";
         public static final String VIEW = "VIEW";
