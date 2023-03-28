@@ -1,6 +1,5 @@
 package com.example.office.config.security.auth;
 
-
 import com.example.office.config.security.auth.jwt.TokenRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -42,6 +41,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             boolean isTokenValid = tokenRepository.findByToken(jwt)
                     .map(t -> !t.isExpired() && !t.isRevoked())
                     .orElse(false);
+
             if (jwtService.isTokenValid(jwt, userDetails) && isTokenValid) {
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                         userDetails,
