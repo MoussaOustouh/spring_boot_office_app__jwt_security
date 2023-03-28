@@ -8,6 +8,9 @@ import com.example.office.repositories.UserRepository;
 import com.example.office.services.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -49,5 +52,11 @@ public class UserServiceImpl implements UserService {
         log.debug("Created information for Use: {}", newUser);
 
         return Optional.of(userMapper.toDto(newUser));
+    }
+
+    @Override
+    public Page<UserDTO> findAll(Specification<User> specification, Pageable pageable) {
+        return userRepository.findAll(specification, pageable)
+                .map(userMapper::toDto);
     }
 }

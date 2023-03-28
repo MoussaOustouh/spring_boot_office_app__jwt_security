@@ -1,5 +1,6 @@
 package com.example.office.exceptions.handlers;
 
+import com.example.office.exceptions.NotFoundException;
 import com.example.office.exceptions.errors.ErrorMessage;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -22,7 +23,11 @@ public class AppExceptionHandler {
         ErrorMessage errorMessage = new ErrorMessage(Instant.now(), ex.getMessage());
         return new ResponseEntity<>(errorMessage, new HttpHeaders(), HttpStatus.UNAUTHORIZED);
     }
-
+    @ExceptionHandler(value = NotFoundException.class)
+    public ResponseEntity<Object> handleNotFoundException(NotFoundException ex, WebRequest request){
+        ErrorMessage errorMessage = new ErrorMessage(Instant.now(), ex.getMessage());
+        return new ResponseEntity<>(errorMessage, new HttpHeaders(), ex.getHttpStatus());
+    }
 
     @ExceptionHandler(value = Exception.class)
     public ResponseEntity<Object> handleOthersExceptions(Exception ex, WebRequest request){
